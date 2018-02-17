@@ -1,41 +1,111 @@
 const express = require('express');
 const path = require('path');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 5000;
 
-// Multi-process to utilize all CPU cores.
-if (cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
+const app = express();
 
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-  });
+app.use(bodyParser.json());
 
-} else {
-  const app = express();
+app.get('/sightings', (req, res) => {
+  res.json(sightings);
+});
 
-  // Priority serve any static files.
-  app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
+app.post('/sightings', (req, res) => {
+  req.body.id = (sightings.length + 1).toString();
+  sightings.push(req.body);
+  res.json(req.body);
+});
 
-  // Answer API requests.
-  app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
-  });
+app.get('/species', (req, res) => {
+  res.json(species);
+});
 
   // All remaining requests return the React app, so it can handle routing.
-  app.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
-  });
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+});
 
-  app.listen(PORT, function () {
-    console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-  });
-}
+const species = [
+  {
+    name: 'mallard'
+  },
+  {
+    name: 'redhead'
+  },
+  {
+    name: 'gadwall'
+  },
+  {
+    name: 'canvasback'
+  },
+  {
+    name: 'lesser scaup'
+  }
+];
+
+const sightings = [
+  {
+    id: '1',
+    species: 'gadwall',
+    description: 'All your ducks are belong to us',
+    dateTime: '2016-10-01T01:01:00Z',
+    count: 1
+  },
+  {
+    id: '2',
+    species: 'lesser scaup',
+    description: 'This is awesome',
+    dateTime: '2016-12-13T12:05:00Z',
+    count: 5
+  },
+  {
+    id: '3',
+    species: 'canvasback',
+    description: '...',
+    dateTime: '2016-11-30T23:59:00Z',
+    count: 2
+  },
+  {
+    id: '4',
+    species: 'mallard',
+    description: 'Getting tired',
+    dateTime: '2016-11-29T00:00:00Z',
+    count: 18
+  },
+  {
+    id: '5',
+    species: 'redhead',
+    description: 'I think this one is called Alfred J.',
+    dateTime: '2016-11-29T10:00:01Z',
+    count: 1
+  },
+  {
+    id: '6',
+    species: 'redhead',
+    description: 'If it looks like a duck, swims like a duck, and quacks like a duck, then it probably is a duck.',
+    dateTime: '2016-12-01T13:59:00Z',
+    count: 1
+  },
+  {
+    id: '7',
+    species: 'mallard',
+    description: 'Too many ducks to be counted',
+    dateTime: '2016-12-12T12:12:12Z',
+    count: 100
+  },
+  {
+    id: '8',
+    species: 'canvasback',
+    description: 'KWAAK!!!1',
+    dateTime: '2016-12-11T01:01:00Z',
+    count: 5
+  }
+];
+
+app.listen(PORT, function () {
+  console.error(`listening on port ${PORT}`);
+});

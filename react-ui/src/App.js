@@ -1,58 +1,45 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import SightingList from './SightingList'
+import Header from './Header'
+import Navigation from './Navigation'
+import AddSighting from './AddSighting'
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      message: null,
-      fetching: true
-    };
+      adding: false,
+    }
   }
 
-  componentDidMount() {
-    fetch('/api')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`status ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(json => {
-        this.setState({
-          message: json.message,
-          fetching: false
-        });
-      }).catch(e => {
-        this.setState({
-          message: `API call failed: ${e}`,
-          fetching: false
-        });
-      })
+  changeView = () => {
+    this.setState({ adding: !this.state.adding })
   }
 
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+    if (this.state.adding) {
+      return (
+        <div>
+          <Header />
+          <Navigation
+            adding={this.state.adding}
+            changeView={this.changeView}
+          />
+          <AddSighting />
         </div>
-        <p className="App-intro">
-          {'This is '}
-          <a href="https://github.com/mars/heroku-cra-node">
-            {'create-react-app with a custom Node/Express server'}
-          </a><br/>
-        </p>
-        <p className="App-intro">
-          {this.state.fetching
-            ? 'Fetching message from API'
-            : this.state.message}
-        </p>
+      )
+    }
+    return (
+      <div>
+        <Header />
+        <Navigation
+          adding={this.state.adding}
+          changeView={this.changeView}
+        />
+        <SightingList />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

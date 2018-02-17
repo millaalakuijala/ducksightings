@@ -1,5 +1,59 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.navigation {
+	margin-bottom: 2rem;
+}
+
+.form {
+	max-width: 1000px;
+	min-width: 50vw;
+	padding-left: 1.25rem;
+}
+
+.list-group {
+	padding-top: 1rem;
+}
+
+.list-control {
+	height: 6vh;
+	padding-right: 1vw;
+	padding-left: 1.25rem;
+}
+
+.list-control > .section {
+	float: right;
+	display: inline-flex;
+}
+
+.list-control > .dropdown {
+	float: right;
+	display: inline-flex;
+}
+
+.list-control > h3 {
+	float: left;
+	display: inline-flex;
+}
+
+.dropdown > .btn {
+	border: none;
+	color: #aaa;
+}
+
+.dropdown > .btn:hover {
+	border: none;
+	background-color: #aaa;
+}
+
+.dropdown > .btn-outline-secondary.dropdown-toggle:focus {
+	border: none;
+	background-color: #aaa;
+}
+
+.header > * {
+	display: inline-flex;
+	margin-top: 2vw;
+	margin-left: 3vw;
+}
+
+img {
+	width: 10vw;
 }
