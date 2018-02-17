@@ -6,6 +6,7 @@
 	max-width: 1000px;
 	min-width: 50vw;
 	padding-left: 1.25rem;
+	padding-right: 0.75rem;
 }
 
 .list-group {
@@ -13,8 +14,8 @@
 }
 
 .list-control {
-	height: 6vh;
-	padding-right: 1vw;
+	height: 8vh;
+	padding-right: 0.75rem;
 	padding-left: 1.25rem;
 }
 
@@ -24,7 +25,7 @@
 }
 
 .list-control > .order-section {
-	width: 15vw;
+	max-width: 15vw;
 }
 
 .list-control > h3 {
