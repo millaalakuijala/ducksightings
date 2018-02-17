@@ -23,9 +23,8 @@
 	display: inline-flex;
 }
 
-.list-control > .dropdown {
-	float: right;
-	display: inline-flex;
+.list-control > .order-section {
+	width: 15vw;
 }
 
 .list-control > h3 {

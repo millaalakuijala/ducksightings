@@ -23,7 +23,7 @@ class SortDropdown extends React.Component {
 
   render () {
     return (
-      <div className="section">
+      <div className="section order-section">
         <Select
           autosize={false}
           onChange={this.handleSelectChange}
