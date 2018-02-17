@@ -1,31 +1,36 @@
 import React from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import Select from 'react-select';
+
+  const options = [
+    { label: "Newest first", value: "newest" },
+    { label: "Oldest first", value: "oldest" },
+  ]
 
 class SortDropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropdownOpen: false
-    };
+      selectedOrder: "newest",
+    }
   }
 
-  toggle = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
+  handleSelectChange = (value) => {
+    this.setState({ selectedOrder: value.value}, () => {
+      this.props.setOrder(this.state.selectedOrder)
+    })
+
   }
 
-  render() {
+  render () {
     return (
-      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle outline caret>
-          Sort
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem onClick={() => this.props.setOrder('newest')}>Newest first</DropdownItem>
-          <DropdownItem onClick={() => this.props.setOrder('oldest')}>Oldest first</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+      <div className="section">
+        <Select
+          autosize={false}
+          onChange={this.handleSelectChange}
+          options={options}
+          value={this.state.selectedOrder}
+        />
+      </div>
     )
   }
 }
